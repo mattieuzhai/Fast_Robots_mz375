@@ -16,7 +16,11 @@ The first objective was to make the built-in LED on the Artemis Nano board blink
 <iframe width="560" height="315" src="https://youtube.com/embed/zOSn3S8fa9M" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 ##### Objective 2
-The second objective was to test the serial communication between the Artemis board and our computers. Fortunately, the Artemis board is compatible with the Arduino Serial API. For this objective, I uploaded the example code provided by SparkFun which created an "echo" machine that returned any string we input into the terminal, to the serial monitor. Here is a video of me testing this functionality: 
+The second objective was to test the serial communication between the Artemis board and our computers. Fortunately, the Artemis board is compatible with the Arduino Serial API. For this objective, I uploaded the example code provided by SparkFun which created an "echo" machine that returned any string we input into the terminal, to the serial monitor. One important thing to note is that we had to change the baud rate to match the rate that was put into the code, which was 115200 in this case. Otherwise, we would get strange symbols instead of the desired output. This can be seen in the first line of the video. Here is a video of me testing this functionality: 
+<iframe width="560" height="315" src="https://youtube.com/embed/2PkqsyLgYPM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+##### Objective 3
+The third objective was to test the ADCs (analog-to-digital converters) on the Artemis board. To do this, we utilized the on-board temperature sensors that are internally connected to a few of the ADC channels. We were able to use the built-in Arduino function analogRead() in order to obtain data from the ADC. The 
 # Lab 2
 
 # Lab 3
