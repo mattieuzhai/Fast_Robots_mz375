@@ -81,6 +81,44 @@ And the Python code + output:
 ![t1](/Lab2/task1.png)
 
 ### Task 2
-Our next task was to make a command that returned the time. For this task, we also had to edit the cmd_types.py file and the enum CommandTypes function in ble_arduino.ino in order to add a new command. This allows us to assign an integer value to each command String, which is necessary for the switch function as the cases of the switch function cannot be a string. The millis() function in Arduino was also needed. 
+Our next task was to make a command that returned the time. For this task, we also had to edit the cmd_types.py file and the enum CommandTypes function in ble_arduino.ino in order to add a new command. This allows us to assign an integer value to each command String, which is necessary for the switch function as the cases of the switch function cannot be a string. The millis() function in Arduino was also needed. The Arduino code: 
+```C
+//Building the string I want
+tx_estring_value.clear();
+tx_estring_value.append("T: ");
+time_d = millis();
+tx_estring_value.append(time_d);
 
+//This is sending the string back to my computer
+tx_characteristic_string.writeValue(tx_estring_value.c_str());
+```
+And the Python code + output:
+![t2](/Lab2/task2.png)
+
+### Task 3
+The next task was setting up a notification handler to process any incoming data. Essentially, a notification handler executes a function anytime data with a specific UUID is received from the BLE device. Thus, I set up a function that would extract the time from the string and converted it back to an integer. One thing to note is that if you ran start_notify twice without running stop_notify in-between, then it would execute the function twice. The Python code + output (note that I've been running this for a very long time):
+![t3](/Lab2/task3.png)
+
+### Task 4 
+The next task was making a function that would take the temperature at 1 second intervals over 5 seconds and then returning a time-stamped string of temperatures. I accomplished this using the built-in getTempDegC() function, which converted the temperature to Celsius for me. I used "|" as a delimiter for future processing.
+Arduino code:
+```C++
+//Building the string I want
+tx_estring_value.clear();
+for(int i = 0; i < 5; i++){
+    tx_estring_value.append("T:");
+    tx_estring_value.append((float)(millis()/1000));
+    tx_estring_value.append("|C:");
+    tx_estring_value.append(getTempDegC());
+    if(i != 4){
+        tx_estring_value.append("|");
+    }
+    delay(1000);
+}
+tx_characteristic_string.writeValue(tx_estring_value.c_str());
+```
+And the Python code + output:
+![t4](/Lab2/task4.png)
+
+### Task 5
 
