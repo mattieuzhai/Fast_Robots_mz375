@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Test
-permalink: /test/
+permalink: /lab1/
 ---
 # Lab 1 
 This lab was mostly about familiarizing ourselves with the Artemis Nano board. The lab objectives were mostly simple tasks to ensure that our computer was able to upload code and communicate with the Nano board for future labs. 
