@@ -78,5 +78,6 @@ tx_estring_value.append("!");
 tx_characteristic_string.writeValue(tx_estring_value.c_str()); 
 ```
 And the Python code + output:
+![t1](/Lab2/task1.png)
 
 

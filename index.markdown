@@ -4,7 +4,7 @@
 
 layout: default
 ---
-# Introduction
+# MAE 5190: Fast Robots
 Hello! I'm Mattieu Zhai and this is my project website for Fast Robots. 
 Here, you will find pages with the lab writeups. In my free time, I enjoy playing ultimate frisbee and 
 performing magic tricks. Enjoy!
