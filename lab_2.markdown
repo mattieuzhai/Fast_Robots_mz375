@@ -10,10 +10,12 @@ The main objective of this lab was to get us familiar with the Bluetooth command
 First, we needed to install Python (I already had Python and pip3 installed)
 
 Next, we created and activated a virtual environment by running the following commands in a terminal (Command Prompt for me, a Windows user):
-'''
+```
 python3 -m pip install --user virtualenv
 python3 -m venv FastRobots_ble
 .\FastRobots_ble\Scripts\activate
-'''
+```
 
 After this, we installed the necessary packages with the following command (though I later installed matplotlib as well)
+'''
+'''
