@@ -80,4 +80,7 @@ tx_characteristic_string.writeValue(tx_estring_value.c_str());
 And the Python code + output:
 ![t1](/Lab2/task1.png)
 
+### Task 2
+Our next task was to make a command that returned the time. For this task, we also had to edit the cmd_types.py file and the enum CommandTypes function in ble_arduino.ino in order to add a new command. This allows us to assign an integer value to each command String, which is necessary for the switch function as the cases of the switch function cannot be a string. The millis() function in Arduino was also needed. 
+
 
