@@ -47,4 +47,35 @@ We were given a demo.ipynb file to run to ensure that everything worked.
 </style>
 <script src="https://gist.github.com/mattieuzhai/34eb5ffc9ddc850f809850cdd12c09dd.js"></script>
 
-If everything worked, we should have been able to run every cell. Here are the outputs from the cells when I ran it: 
+If everything worked, we should have been able to run every cell. Here are the outputs from the cells when I ran through the file: 
+[c](/Lab2/connect_ss.png)
+[d](/Lab2/demo_ss1.png)
+[e](/Lab2/ping_ss.png)
+And the Arduino Serial monitor when I ran PING and SEND_TWO_INTS:
+[pong](/Lab2/pong_sm.png)
+Interestingly, running the ble.disconnect() wouldn't always work cleanly and often made my notebook run that cell forever, so I simply pushed the reset button on the Artemsis to disconnect it for a lot of the tasks.
+After proving everything worked, I started on the tasks. 
+### Task 1
+For this task, we simply had to make an ECHO command where the robot would return the string that we wrote to the Artemis board.  (modified a little bit). The processing of the string was made much easier by the EnhancedString class given to us. The Arduino code is below:
+```C++
+char char_arr[MAX_MSG_SIZE];
+
+// Extract the next value from the command string as a character array
+ success = robot_cmd.get_next_value(char_arr);
+if (!success)
+    return;
+
+/* /*
+* Your code goes here.
+*/
+//Making an enhanced string
+tx_estring_value.clear();
+tx_estring_value.append("Robot says: ");
+tx_estring_value.append(char_arr);
+tx_estring_value.append("!");
+
+//This is sending the string back to my computer
+tx_characteristic_string.writeValue(tx_estring_value.c_str()); 
+```
+
+
