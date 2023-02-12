@@ -57,7 +57,7 @@ Interestingly, running the ble.disconnect() wouldn't always work cleanly and oft
 After proving everything worked, I started on the tasks. 
 ### Task 1
 For this task, we simply had to make an ECHO command where the robot would return the string that we wrote to the Artemis board.  (modified a little bit). The processing of the string was made much easier by the EnhancedString class given to us. The Arduino code is below:
-```C++
+```C
 char char_arr[MAX_MSG_SIZE];
 
 // Extract the next value from the command string as a character array
