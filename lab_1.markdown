@@ -1,14 +1,8 @@
 ---
-# Feel free to add content and custom Front Matter to this file.
-# To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
-
 layout: default
+title: Test
+permalink: /test/
 ---
-# Introduction
-Hello! I'm Mattieu Zhai and this is my project website for Fast Robots. 
-Here, you will find pages with the lab writeups. In my free time, I enjoy playing ultimate frisbee and 
-performing magic tricks. Enjoy!
-![ME](/photo.png)
 # Lab 1 
 This lab was mostly about familiarizing ourselves with the Artemis Nano board. The lab objectives were mostly simple tasks to ensure that our computer was able to upload code and communicate with the Nano board for future labs. 
 ##### Objective 1
@@ -40,7 +34,3 @@ After that, since I knew that every octave traditionally means the frequency goe
 ![ET2](/ExtraTask2.png)
 Here is a video of me testing this functionality and proving it works:
 <iframe width="560" height="315" src="https://www.youtube.com/embed/QimlnMm-7nA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-
-# Lab 2
-
-# Lab 3
