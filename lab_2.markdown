@@ -6,7 +6,7 @@ permalink: /lab2/
 # Lab 2
 The main objective of this lab was to get us familiar with the Bluetooth commands and make sure it worked with our Artemis boards
 
-### Setup
+### Code Setup
 First, we needed to install Python (I already had Python and pip3 installed)
 
 Next, we created and activated a virtual environment by running the following commands in a terminal (Command Prompt for me, a Windows user):
@@ -16,6 +16,27 @@ python3 -m venv FastRobots_ble
 .\FastRobots_ble\Scripts\activate
 ```
 
-After this, we installed the necessary packages with the following command (though I later installed matplotlib as well)
-'''
-'''
+After this, we installed the necessary packages with the following command (though I later installed matplotlib as well using pip3)
+```
+ pip install numpy pyyaml colorama nest_asyncio bleak jupyterlab
+ pip3 install matplotlib
+```
+In order to run the Python side of things, we used Jupyter which we could activate within our virtual environment using the command
+```
+jupyter lab
+```
+I then copied the given codebase into the project directory, which contained the base .ino files needed for the Artemis board. The codebase appears to be made up of a Python and Arduino half. The Python half allows us to communicate with the board through Bluetooth and send commands to the Artemis board, while the Arduino half is where we code in the actual commands that we want executed. 
+
+Arduino comes with a library that supports Bluetooth Low Energy (BLE) which is used with Bluetooth 4.0 (and better). We installed this in the Arduino IDE and burned the given ble_arduino.ino sketch into the Artemis board. After uploading this, the Artemis board printed its MAC address to the Serial monitor:
+![MAC](/Lab2/mac_address.png)
+
+I also had to update the MAC address in the connection.yaml file, as well as create a new UUID for our board so that we wouldn't accidentally connect to any other boards. In order to generate these new UUIDs, we ran the following code, which was given to us in the demo.ipynb file:
+```
+from uuid import uuid4
+uuid4()
+```
+I updated the ble_arduino.ino and connections.yaml files with this new uuid. 
+
+### Demo
+We were given a demo.ipynb file to run to ensure that everything worked. 
+<script src="https://gist.github.com/mattieuzhai/34eb5ffc9ddc850f809850cdd12c09dd.js"></script>
