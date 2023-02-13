@@ -121,4 +121,98 @@ And the Python code + output:
 ![t4](/Lab2/task4.png)
 
 ### Task 5
+The next task was to send 5 seconds worth of rapidly sampled temperature data. Now because there would be so much data, it wouldn't be possible to send it back in one string. I originally planned on storing everything on chip and then transferring after 5 seconds (which is the more optimal way to do it) but I decided against this because I knew that arrays in C++ aren't variable in size but have a fixed memory allocation so I wasn't sure how else to store the data on-chip. Thus, I decided to send a the GET_TEMP_5s_RAPID command as fast as possible over 5 seconds instead and used the exact same notification handler as Task 4 to process the data. In order to know how many times I needed to send the code, I timed it within Python in a similar fashion to the first MEng task. 
+Arduino code:
+```C++
+tx_estring_value.clear();
+time_elapsed = millis();
 
+for(int i = 0; i < 7; i++){
+    tx_estring_value.append("T:");
+    tx_estring_value.append((float)millis()/1000);
+    tx_estring_value.append("|C:");
+    tx_estring_value.append(getTempDegC());
+    tx_estring_value.append("|");
+}
+tx_characteristic_string.writeValue(tx_estring_value.c_str());
+Serial.printf("Time elapsed: %d ms\n", millis()-time_elapsed);
+```
+Python code: 
+![t5](/Lab2/task5.png)
+
+#### Limitations
+The limitations of storage are dependent on RAM as well as global variables that we define within our program. Generally, if we sample 16 bit values (which are equal to 2 bytes) sampled at 150 hz, that means that in 1 second, we would have 300 bytes of data already and in 5 seconds, we would have collected 1.5 kB worth of data. That's not even close to the 384 kB of RAM that we have on the chip, which is good. 
+
+### MEng Task 1
+The first MEng task was to evaluate if the size of the message that we sent and received to and from the board mattered in terms of response time. To test this, I first sent a 5 byte message "5byte" 10 times and used the time.time() function to time it in Python. I put one before I sent the command and the next one in the notification handler to time how long it took for the Artemis to respond. I did the same with a 120 byte message and then compared the two in a bar graph with error bars.
+Python code:
+```python
+start_time = time.time()
+t_elapsed = 0
+time_5bytes = []
+global start_time
+global t_elapsed
+global time_5bytes
+def stopwatch(uuid,data):
+    stop_time = time.time()
+    t_elapsed = stop_time - start_time
+    time_5bytes.append(t_elapsed)
+    
+ble.start_notify(ble.uuid['RX_STRING'], stopwatch)
+
+for x in range(10):
+    start_time = time.time()
+    ble.send_command(CMD.ECHO, "5byte")
+
+    
+ble.stop_notify(ble.uuid['RX_STRING'])
+
+time_5bytes.pop()
+print((time_5bytes))
+print(np.mean(time_5bytes))
+print(np.std(time_5bytes))
+
+```
+```python
+start_time = time.time()
+t_elapsed = 0
+time_120bytes = []
+global start_time
+global t_elapsed
+global time_120bytes
+
+def stopwatch1(uuid,data):
+    stop_time = time.time()
+    t_elapsed = stop_time - start_time
+    time_120bytes.append(t_elapsed)
+
+    
+ble.start_notify(ble.uuid['RX_STRING'], stopwatch1)
+
+for x in range(10):
+    start_time = time.time()
+    ble.send_command(CMD.ECHO, "120bytesxD120bytesxD120bytesxD120bytesxD120bytesxD120bytesxD120bytesxD120bytesxD120bytesxD120bytesxD")
+
+ble.stop_notify(ble.uuid['RX_STRING'])
+
+time_120bytes.pop()
+print((time_120bytes))
+print(np.mean(time_120bytes))
+print(np.std(time_120bytes))
+
+ble.stop_notify(ble.uuid['RX_STRING'])
+```
+```python
+x_t = ["5 Bytes", "120 Bytes"]
+means = [np.mean(time_5bytes), np.mean(time_120bytes)]
+errs = [np.std(time_5bytes), np.std(time_120bytes)]
+colors = ['tab:red','tab:blue']
+          
+fig, ax = plt.subplots()
+ax.bar(x_t, means, yerr=errs, color = colors, align='center', ecolor='black', capsize=10)
+ax.set_ylabel("Time (s)");
+ax.set_title("Average Response Time Based on Different Message Sizes");
+```
+![t6](/Lab2/task6.png)
+
+ I noticed that there wasn't really a big difference in the timing, with a really small difference in about 10 ms between the two message sizes. However, this means that it's generally more efficient to send data back in 120 byte segments as it would take 12 5 byte messages to send the same amount of data as a single 120 byte message. 
