@@ -144,7 +144,7 @@ Python code:
 The limitations of storage are dependent on RAM as well as global variables that we define within our program. Generally, if we sample 16 bit values (which are equal to 2 bytes) sampled at 150 hz, that means that in 1 second, we would have 300 bytes of data already and in 5 seconds, we would have collected 1.5 kB worth of data. That's not even close to the 384 kB of RAM that we have on the chip, which is good. 
 
 ### MEng Task 1
-The first MEng task was to evaluate if the size of the message that we sent and received to and from the board mattered in terms of response time. To test this, I first sent a 5 byte message "5byte" 10 times and used the time.time() function to time it in Python. I put one before I sent the command and the next one in the notification handler to time how long it took for the Artemis to respond. I did the same with a 120 byte message and then compared the two in a bar graph with error bars.
+The first MEng task was to evaluate if the size of the message that we sent and received to and from the board mattered in terms of response time. To test this, I first sent a 5 byte message "5byte" 10 times and used the time.time() function to time it in Python. I put one before I sent the command and the next one in the notification handler to time how long it took for the Artemis to respond. The command I used was the ECHO command since it both received and sent data. I did the same with a 120 byte message and then compared the two in a bar graph with error bars.
 Python code:
 ```python
 start_time = time.time()
@@ -216,3 +216,33 @@ ax.set_title("Average Response Time Based on Different Message Sizes");
 ![t6](/Lab2/task6.png)
 
  I noticed that there wasn't really a big difference in the timing, with a really small difference in about 10 ms between the two message sizes. However, this means that it's generally more efficient to send data back in 120 byte segments as it would take 12 5 byte messages to send the same amount of data as a single 120 byte message. 
+
+ ### MEng Task 2
+ The second task was to test what happens if we send data back from the Artemis board really quickly. In order to test this, I added an extra line to the ECHO command where I write back the echo string and then wrote back a second and third string in the Arduino code without any delay. I then used the notificaion handler to just print whatever string was receieved. I also tested it without a notification handler and used the receive_string() command to see what would happen. When I used the notifcation handler, I didn't lose any data but when I used the receive_string() command, I lost the echoed string. Thus, it appears that if we use the notification handler, then everything will be caught but if we don't, then only the last string will be caught. 
+ Arduino code:
+ ```C++
+ char char_arr[MAX_MSG_SIZE];
+
+// Extract the next value from the command string as a character array
+success = robot_cmd.get_next_value(char_arr);
+if (!success)
+    return;
+
+/*
+* Your code goes here.
+*/
+//Making an enhanced string
+tx_estring_value.clear();
+tx_estring_value.append("Robot says: ");
+tx_estring_value.append(char_arr);
+tx_estring_value.append("!");
+
+//This is sending the string back to my computer
+tx_characteristic_string.writeValue(tx_estring_value.c_str());
+tx_characteristic_string.writeValue("Extra string");
+tx_characteristic_string.writeValue("Extra string 2");
+ ```
+With notification handler:
+![t7](/Lab2/task7.png)
+Without notification handler:
+![t8](/Lab2/task8.png)
