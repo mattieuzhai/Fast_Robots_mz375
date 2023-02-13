@@ -41,9 +41,9 @@ I updated the ble_arduino.ino and connections.yaml files with this new uuid.
 ### Demo
 We were given a demo.ipynb file to run to ensure that everything worked. 
 <style type="text/css">
-  .gist {width:500px !important;}
+  .gist {width:1000px !important;}
   .gist-file
-  .gist-data {max-height: 500px;max-width: 500px;}
+  .gist-data {max-height: 500px;max-width: 1000px;}
 </style>
 <script src="https://gist.github.com/mattieuzhai/34eb5ffc9ddc850f809850cdd12c09dd.js"></script>
 
@@ -100,7 +100,7 @@ The next task was setting up a notification handler to process any incoming data
 ![t3](/Lab2/task3.png)
 
 ### Task 4 
-The next task was making a function that would take the temperature at 1 second intervals over 5 seconds and then returning a time-stamped string of temperatures. I accomplished this using the built-in getTempDegC() function, which converted the temperature to Celsius for me. I used "|" as a delimiter for future processing.
+The next task was making a function that would take the temperature at 1 second intervals over 5 seconds and then returning a time-stamped string of temperatures. I accomplished this using the built-in getTempDegC() function, which converted the temperature to Celsius for me. I used "|" as a delimiter for future processing with a notification handler. to split the strings and extract the times and temperatures. Note that I extracted the time in seconds this time instead of milliseconds like in Task 3. 
 Arduino code:
 ```C++
 //Building the string I want
@@ -119,6 +119,9 @@ tx_characteristic_string.writeValue(tx_estring_value.c_str());
 ```
 And the Python code + output:
 ![t4](/Lab2/task4.png)
+
+Notification handler:
+![noti](/Lab2/noti.png)
 
 ### Task 5
 The next task was to send 5 seconds worth of rapidly sampled temperature data. Now because there would be so much data, it wouldn't be possible to send it back in one string. I originally planned on storing everything on chip and then transferring after 5 seconds (which is the more optimal way to do it) but I decided against this because I knew that arrays in C++ aren't variable in size but have a fixed memory allocation so I wasn't sure how else to store the data on-chip. Thus, I decided to send a the GET_TEMP_5s_RAPID command as fast as possible over 5 seconds instead and used the exact same notification handler as Task 4 to process the data. In order to know how many times I needed to send the code, I timed it within Python in a similar fashion to the first MEng task. 
@@ -218,6 +221,7 @@ ax.set_title("Average Response Time Based on Different Message Sizes");
  I noticed that there wasn't really a big difference in the timing, with a really small difference in about 10 ms between the two message sizes. However, this means that it's generally more efficient to send data back in 120 byte segments as it would take 12 5 byte messages to send the same amount of data as a single 120 byte message. 
 
  ### MEng Task 2
+
  The second task was to test what happens if we send data back from the Artemis board really quickly. In order to test this, I added an extra line to the ECHO command where I write back the echo string and then wrote back a second and third string in the Arduino code without any delay. I then used the notificaion handler to just print whatever string was receieved. I also tested it without a notification handler and used the receive_string() command to see what would happen. When I used the notifcation handler, I didn't lose any data but when I used the receive_string() command, I lost the echoed string. Thus, it appears that if we use the notification handler, then everything will be caught but if we don't, then only the last string will be caught. 
  Arduino code:
  ```C++
