@@ -116,7 +116,7 @@ Note that I had to calculate the standard deviation off board, since I couldn't 
 I used the rewrite I2C address method in order to read both sensors at the same time. Note that I had to connect to each sensor individually when using .begin() to initalize each sensor. 
 
 A photo of my setup:
-![s](/Lab3/xD.png)
+![s](/Lab3/xD.jpg)
 
 Arduino code:
 ```C++
@@ -313,4 +313,4 @@ I tested the ToF sensors on a variety of different textures, colors, and in ligh
 
 Photo of my setup:
 ![p2](/Lab3/p2.jpg)
-I got that the color didn't really affect my readings in a noticeable (red, blue, black, white, and beige), nor did any of the textures I tested (couch, wall, blanket, wood). There was also no significant difference in darkness and light. The only surface that I noticed would mess with my sensors is when I aimed at a clear plastic container. The true distance was 80 mm and I was getting readings of around 124 mm with a standard deviation of ~ 5.5 mm, which is a lot higher than what it was when I tested the reliability (on a white cardboard box). I also noticed that it would read the surface of my laptop screen incorrectly, with the true distance being 100 mm and it returning values of ~170 mm, though the standard deviation was back to around 1.5 mm. This was mainly when the laptop screen was on 
+I got that the color didn't really affect my readings in a noticeable (red, blue, black, white, and beige), nor did any of the textures I tested (couch, wall, blanket, wood). There was also no significant difference in darkness and light. The only surface that I noticed would mess with my sensors is when I aimed at a clear plastic container. The true distance was 80 mm and I was getting readings of around 124 mm with a standard deviation of ~ 5.5 mm, which is a lot higher than what it was when I tested the reliability (on a white cardboard box). I also noticed that it would read the surface of my laptop screen incorrectly, with the true distance being 100 mm and it returning values of ~170 mm, though the standard deviation was back to around 1.5 mm. This was mainly when the laptop screen was on.

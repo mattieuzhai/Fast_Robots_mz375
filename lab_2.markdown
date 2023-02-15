@@ -81,7 +81,9 @@ And the Python code + output:
 ![t1](/Lab2/task1.png)
 
 ### Task 2
-Our next task was to make a command that returned the time. For this task, we also had to edit the cmd_types.py file and the enum CommandTypes function in ble_arduino.ino in order to add a new command. This allows us to assign an integer value to each command String, which is necessary for the switch function as the cases of the switch function cannot be a string. The millis() function in Arduino was also needed. The Arduino code: 
+Our next task was to make a command that returned the time. For this task, we also had to edit the cmd_types.py file and the enum CommandTypes function in ble_arduino.ino in order to add a new command. This allows us to assign an integer value to each command String, which is necessary for the switch function as the cases of the switch function cannot be a string. The millis() function in Arduino was also needed. 
+
+The Arduino code: 
 ```C
 //Building the string I want
 tx_estring_value.clear();
@@ -101,6 +103,7 @@ The next task was setting up a notification handler to process any incoming data
 
 ### Task 4 
 The next task was making a function that would take the temperature at 1 second intervals over 5 seconds and then returning a time-stamped string of temperatures. I accomplished this using the built-in getTempDegC() function, which converted the temperature to Celsius for me. I used "|" as a delimiter for future processing with a notification handler. to split the strings and extract the times and temperatures. Note that I extracted the time in seconds this time instead of milliseconds like in Task 3. 
+
 Arduino code:
 ```C++
 //Building the string I want
@@ -125,6 +128,7 @@ Notification handler:
 
 ### Task 5
 The next task was to send 5 seconds worth of rapidly sampled temperature data. Now because there would be so much data, it wouldn't be possible to send it back in one string. I originally planned on storing everything on chip and then transferring after 5 seconds (which is the more optimal way to do it) but I decided against this because I knew that arrays in C++ aren't variable in size but have a fixed memory allocation so I wasn't sure how else to store the data on-chip. Thus, I decided to send a the GET_TEMP_5s_RAPID command as fast as possible over 5 seconds instead and used the exact same notification handler as Task 4 to process the data. In order to know how many times I needed to send the code, I timed it within Python in a similar fashion to the first MEng task. 
+
 Arduino code:
 ```C++
 tx_estring_value.clear();
@@ -144,7 +148,7 @@ Python code:
 ![t5](/Lab2/task5.png)
 
 #### Limitations
-The limitations of storage are dependent on RAM as well as global variables that we define within our program. Generally, if we sample 16 bit values (which are equal to 2 bytes) sampled at 150 hz, that means that in 1 second, we would have 300 bytes of data already and in 5 seconds, we would have collected 1.5 kB worth of data. That's not even close to the 384 kB of RAM that we have on the chip, which is good. 
+The limitations of storage are dependent on RAM as well as global variables that we define within our program. Generally, if we sample 16 bit values (which are equal to 2 bytes) sampled at 150 hz, that means that in 1 second, we would have 300 bytes of data already and in 5 seconds, we would have collected 1.5 kB worth of data. That's not even close to the 384 kB of RAM that we have on the chip, which is good. However, we have to account for the fact that we might have multiple variables to collect, and each extra global variable means that we will have less storage space and less time before our RAM fills up.
 
 ### MEng Task 1
 The first MEng task was to evaluate if the size of the message that we sent and received to and from the board mattered in terms of response time. To test this, I first sent a 5 byte message "5byte" 10 times and used the time.time() function to time it in Python. I put one before I sent the command and the next one in the notification handler to time how long it took for the Artemis to respond. The command I used was the ECHO command since it both received and sent data. I did the same with a 120 byte message and then compared the two in a bar graph with error bars.
