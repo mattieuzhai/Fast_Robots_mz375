@@ -57,11 +57,12 @@ plt.xlabel('Measurement')
 plt.title('Measured vs True Distances (with error bars)')
 ```
 Ranging Time Table:
-Times | Ranging Time |
---------| -------------|
-With everything | 2.369 ms |
-W/o stopRanging() | 1.71 ms|
-Just reading | 1.056 ms| 
+
+| Times | Ranging Time |
+| ---| ---|
+| With everything | 2.369 ms |
+| W/o stopRanging() | 1.71 ms|
+| Just reading | 1.056 ms| 
 
 
 And the Arduino code I used to measure it (the loop after all initialization steps):
