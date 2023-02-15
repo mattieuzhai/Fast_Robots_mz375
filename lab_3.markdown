@@ -189,4 +189,6 @@ Serial output of my readings:
 ![xD](/Lab3/xD.jpg)
 
 #### ToF Limiting Factor
-In order to find out what the limiting factor was in 
+In order to find out what the limiting factor was when measuring, I added a print statement that prints micros() while the data isn't ready. 
+
+Here is the 
