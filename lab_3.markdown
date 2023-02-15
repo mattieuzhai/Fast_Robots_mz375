@@ -57,7 +57,7 @@ plt.xlabel('Measurement')
 plt.title('Measured vs True Distances (with error bars)')
 ```
 Ranging Time Table:
-        | Ranging Time |
+Times | Ranging Time |
 --------| -------------|
 With everything | 2.369 ms |
 W/o stopRanging() | 1.71 ms|
