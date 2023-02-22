@@ -33,4 +33,6 @@ $$\theta = tan^(-1)(a_x/a_z) = atan2(a_x/a_z)$$
 
 $$\phi = tan^(-1)(a_y/a_z) = atan2(a_y/a_z)$$
 
-Note that we use the built-in atan2 function to get the correct outputs that we want (0 to 1 radians), which we can convert to degrees. We tested both pitch and roll 
+Note that we use the built-in atan2 function to get the correct outputs that we want (0 to 1 radians), which we can convert to degrees. We tested both pitch and roll (note that you cannot calculate yaw using the accelerometer data).
+
+Belo
