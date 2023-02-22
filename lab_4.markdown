@@ -29,9 +29,9 @@ In the example, an AD0_val is defined. This value determines the least significa
 ### Accelerometer Data for Pitch and Roll
 In order to use the accelerometer data for pitch and roll, we used the equations that were given to us: 
 
-$$\theta = arctan(a_x/a_z) = atan2(a_x/a_z)$$
+$$\theta = tan^{-1}(a_x/a_z) = atan2(a_x/a_z)$$
 
-$$\phi = arctan(a_y/a_z) = atan2(a_y/a_z)$$
+$$\phi = tan^{-1}(a_y/a_z) = atan2(a_y/a_z)$$
 
 Note that we use the built-in atan2 function to get the correct outputs that we want (-1 to 1 radians), which we can convert to degrees. We tested both pitch and roll (note that you cannot calculate yaw using the accelerometer data).
 
@@ -41,4 +41,14 @@ Below is a photo of pitch when I turned it from -90 to 90 degrees along the y-ax
 Below is a photo of roll when I turned it from -90 to 90 degrees along the x-axis:
 ![4](/Lab4/roll.png)
 
-As we can see, there is a decent amount of noise within the data, though it is pretty accurate. Because of its accuracy
+As we can see, there is a decent amount of noise within the data, though it is pretty accurate. Because of its accuracy, I decided not to do a two-point calibration. 
+
+Arduino code:
+```C
+pitch_a = atan2(myICM.accX(),myICM.accZ())*180/M_PI; 
+roll_a  = atan2(myICM.accY(),myICM.accZ())*180/M_PI; 
+Serial.print(pitch_a);
+Serial.print(", ");
+Serial.print(roll_a);
+Serial.println();
+```
