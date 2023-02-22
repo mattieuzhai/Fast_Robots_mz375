@@ -21,7 +21,7 @@ Serial Output:
 In the data that the example prints, it seems that a lot of the values are scaled down by the example code. Other than that, the values were printed as predicted. The axes are defined on the IMU breakout board so it was easy to alter the values I wanted. The only thing that was of note is that the IMU could pick up on the Earth's graviational acceleration in the z-axis. 
 
 Video of SerialPlot plotting accelerometer data:
-<iframe width="560" height="315" src="https://youtube.com/embed/kauaCYTzCTM?feature=share" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe width="1120" height="630" src="https://youtube.com/embed/kauaCYTzCTM?feature=share" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 In the example, an AD0_val is defined. This value determines the least significant bit (LSB) of the IMU's I2C address. This means that we can use two IMUs in parallel if we have the logic value of that pin different on both IMUs. By default, the value is 0 when the ADR jumper is closed, which it should be by default. However, this doesn't really matter for us because we're only using one IMU. 
 
@@ -33,6 +33,10 @@ $$\theta = tan^(-1)(a_x/a_z) = atan2(a_x/a_z)$$
 
 $$\phi = tan^(-1)(a_y/a_z) = atan2(a_y/a_z)$$
 
-Note that we use the built-in atan2 function to get the correct outputs that we want (0 to 1 radians), which we can convert to degrees. We tested both pitch and roll (note that you cannot calculate yaw using the accelerometer data).
+Note that we use the built-in atan2 function to get the correct outputs that we want (-1 to 1 radians), which we can convert to degrees. We tested both pitch and roll (note that you cannot calculate yaw using the accelerometer data).
 
-Belo
+Below is a photo of pitch when I turned it from -90 to 90 degrees along the y-axis:
+![3](/Lab4/pitch.png)
+
+Below is a photo of roll when I turned it from -90 to 90 degrees along the x-axis:
+![4](/Lab4)
