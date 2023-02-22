@@ -2,6 +2,7 @@
 layout: default
 title: Lab 4
 permalink: /lab4/
+usemathjax: true
 ---
 ## Lab 4
 The purpose of this lab was to get the IMU working, set up our batteries so we can power our Artemis without having it connected to our laptop, and also start playing with our robot car and make sure that we can get some sensor readings while our robot is driving around. 
