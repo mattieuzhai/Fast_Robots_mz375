@@ -338,4 +338,4 @@ Accelerometer plot:
 ![sddfdfsf](/Lab4/plot_a.png)
 
 Gyroscope plot:
-![sdfsssd](/Lab4/plot_g.png)
+![sdfsssd](/Lab4/plot_gg.png)
