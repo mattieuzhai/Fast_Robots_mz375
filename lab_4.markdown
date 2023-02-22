@@ -325,4 +325,17 @@ I first drove the car around a bit. It feels like this car is really fast and ju
 
 Here is a video of me driving the car around without the Artemis:
 
-<iframe width="800" height="420" src="https://youtube.com/embed/nMm6OTfNGdM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe width="800" height="420" src="https://youtube.com/embed/RtRkbVziu-I?feature=share" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+And here is the video of me driving the car with the Artemis. Note that I chose a slower stunt because I broke two wires doing a flip off a wall and had to re-solder it. 
+
+<iframe width="800" height="420" src="https://youtube.com/embed/FJVGCLQhUuE?feature=share" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+Distance plot:
+![dsdfs](/Lab4/plot_d.png)
+
+Accelerometer plot:
+![sddfdfsf](/Lab4/plot_a.png)
+
+Gyroscope plot:
+![sdfsssd](/Lab4/plot_g.png)
