@@ -28,8 +28,8 @@ In the example, an AD0_val is defined. This value determines the least significa
 ### Accelerometer Data for Pitch and Roll
 In order to use the accelerometer data for pitch and roll, we used the equations that were given to us: 
 
-$\ \theta = tan^(-1)(a_x/a_z) = atan2(a_x/a_z) $
+$$ \theta = tan^(-1)(a_x/a_z) = atan2(a_x/a_z) $$
 
-$ \phi = tan^(-1)(a_y/a_z) = atan2(a_y/a_z) $
+$$ \phi = tan^(-1)(a_y/a_z) = atan2(a_y/a_z) $$
 
 Note that we use the built-in atan2
