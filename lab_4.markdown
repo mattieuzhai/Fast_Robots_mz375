@@ -39,4 +39,6 @@ Below is a photo of pitch when I turned it from -90 to 90 degrees along the y-ax
 ![3](/Lab4/pitch.png)
 
 Below is a photo of roll when I turned it from -90 to 90 degrees along the x-axis:
-![4](/Lab4)
+![4](/Lab4/roll.png)
+
+As we can see, there is a decent amount of noise within the data, though this is most likely because we 
