@@ -74,7 +74,7 @@ $$\psi = \psi + {\omega}_z * {\delta}t$$
 
 Here is a video of the pitch, roll, and yaw values (sorry might need to up brightness):
 
-<iframe width="800" height="420" src="https://youtube.com/embed/nMm6OTfNGdM title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe width="800" height="420" src="https://youtube.com/embed/nMm6OTfNGdM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 As we can see, there is noticeable drift in the values. In the video, we can see that the lines are all over the place. Here is a photo showing more drift when I left it laying flat for a few minutes:
 ![drift](/Lab4/gyroscope_drift.png)
@@ -324,3 +324,5 @@ Here is a photo of my Artemis running with the battery:
 I first drove the car around a bit. It feels like this car is really fast and just goes around really quickly. The turns are abrupt and appear to just turn the wheels at the same velocity in opposite directions to do a point turn. I was able to get it to flip consistently. Overall, very fast car. 
 
 Here is a video of me driving the car around without the Artemis:
+
+<iframe width="800" height="420" src="https://youtube.com/embed/nMm6OTfNGdM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
