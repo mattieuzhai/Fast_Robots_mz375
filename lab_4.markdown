@@ -313,3 +313,5 @@ Accelerometer plot:
 Gyroscope plot:
 ![sdfsdfds](/Lab4/g.png)
 
+### Cut the Coord
+We have a 650 mAh and an 850 mAh battery because we want to use two different power supplys for the motor drivers and everything else. This is mainly because the motor drivers will draw a lot of power, so we need a battery that can output a lot of 
