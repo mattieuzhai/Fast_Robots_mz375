@@ -21,7 +21,7 @@ Serial Output:
 In the data that the example prints, it seems that a lot of the values are scaled down by the example code. Other than that, the values were printed as predicted. The axes are defined on the IMU breakout board so it was easy to alter the values I wanted. The only thing that was of note is that the IMU could pick up on the Earth's graviational acceleration in the z-axis. 
 
 Video of SerialPlot plotting accelerometer data:
-<iframe width="1120" height="630" src="https://youtube.com/embed/kauaCYTzCTM?feature=share" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe width="800" height="420" src="https://youtube.com/embed/kauaCYTzCTM?feature=share" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 In the example, an AD0_val is defined. This value determines the least significant bit (LSB) of the IMU's I2C address. This means that we can use two IMUs in parallel if we have the logic value of that pin different on both IMUs. By default, the value is 0 when the ADR jumper is closed, which it should be by default. However, this doesn't really matter for us because we're only using one IMU. 
 
@@ -52,3 +52,19 @@ Serial.print(", ");
 Serial.print(roll_a);
 Serial.println();
 ```
+
+### Fourier Transform
+In order to try to remove noise by designing a good low-pass filter, I performed a Fast Fourier Transform on both the pitch and roll data in Python. 
+
+Graph:
+![FFT](/Lab4/FFT.png)
+
+I sampled 630 samples in 2 seconds, so I analyzed up to 315 Hz. As we can see (disregarding the spike at 0 Hz), we can't really see any spikes in the transform. I ignored the tiny spikes in the pitch data at 13 Hz and 27 Hz, as I assumed those were not real spikes. This is expected, as there is already a low-pass filter built into the IMU's breakout board. 
+
+### Gyroscope for Pitch and Roll
+To use the gyroscope to find pitch, roll, and yaw, we essentially integrated the gyroscope data in discrete time steps (our sampling time)
+
+Equations:
+$$\theta = \theta + {\omega}_x$$
+
+Here
