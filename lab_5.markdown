@@ -8,13 +8,13 @@ usemathjax: true
 ## Lab 5
 The objective of this lab was to connect new motor drivers to our robot, assemble all of our sensors onto our robot, and demonstrate open-loop control of the robot from the Artemis. 
 
-#### Diagram
+### Diagram
 Here is a diagram of how I wired up my motor drivers to the Artemis, batteries, and motors. I connected the 850 mAh battery to the motors instead of the given 650 mAh battery. I did this because the motors use a lot more power than the Artemis/sensors ever will, so they get the 650 mAh battery. Separating the power sources also allows for less noise, as the motor drivers generate a lot of noise. 
 
 ![diagram](/Lab5/motordriverdiag.png)
 
 
-#### Testing the motor driver
+### Testing the motor driver
 After I soldered the wires to my motor driver and soldered the motor driver to my Artemis, I tested my motor driver output using a power supply and an oscillioscope. I forgot to take a photo of the setup (and now everything is connected to my robot), so here's a verbal description instead. I attached the power supply to the Vin and GND wires. I measured the output from the A/BOUT1 pins and the A/BOUT2 wire with the oscilloscope probes (I attached the probe to the A/BOUT1 wire and the ground clip to the A/BOUT2 wire)
 
 For the power supply, I used an output of 3.7 V to match our battery. I also set the current output to 1.2 A to match the current output that was suggested on the datasheet. The code I used to test the output is below:
@@ -107,4 +107,49 @@ void loop() {
   delay(2500);
 }
 ```
-And here is the video of the robot going straight(ish) for about 6 feet. It hits a bump in my floor at the end, which is why it does that weird
+And here is the video of the robot going straight(ish) for about 6 feet. It hits a bump in my floor at the end, which is why it does that weird turn at the end, but self corrects after going over the hill:
+
+SDfsdf
+<iframe width="800" height="420" src="https://youtube.com/embed/iAfy3t_1Krs?feature=share" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> 
+
+After this, I made my robot go forwards, do a roughly 180 degree turn, and then drive backwards to demonstrate open-loop control. 
+
+<iframe width="800" height="420" src="https://youtube.com/embed/Og5TtfAQqSI?feature=share" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> 
+
+### MEng Tasks
+
+#### Frequency Discussion
+The analogWrite() command, by default, writes a frequency of 500 Hz if no value is specified. When I looked at the signal on the oscillioscope, it was about the same frequency. However, the datasheet for our motor driver indiciates that we have a fixed frequency motor driver. This means that it operates at a fixed frequency and only varies the duty cycle of the output control signal to control the motor's speed. Thus, I don't see any big advantage to altering the PWM signal that we apply to the motor drivers. 
+
+##### Lower limit discussion
+I tried to find the lower limits I could run the robot at. Now I ran this at home, with a different floor than the tile of the lab. I tested many different values and found that I could only run it at 40 and and 29, one value lower than the values it took to overcome the static friction. When I tested it at 39 and 28 (after getting the robot to start), it would stall out. This is potentially because the robot would only be at 41 and 30 before decreasing the speed to 40 and 29, which meant that I wasn't really building a lot of momentum before hitting those values. Here is the code:
+
+```C++
+void loop() {
+  // put your main code here, to run repeatedly:
+  speed = 40;
+
+  analogWrite(6, 41);
+  analogWrite(13,30);
+
+  analogWrite(11,0);
+  analogWrite(7, 0);
+
+  delay(4000);
+
+  analogWrite(6,40);
+  analogWrite(13,29);
+
+  delay(6000);
+
+  analogWrite(6,0);
+  analogWrite(13,0);
+  analogWrite(7,0);
+  analogWrite(11,0);
+  exit(0);
+}
+```
+
+And here is the video showing that:
+<iframe width="800" height="420" src="https://youtube.com/embed/94eTRUugLpU?feature=share" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> 
+
