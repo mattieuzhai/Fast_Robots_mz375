@@ -10,4 +10,4 @@ The purpose of this lab was to figure out a way to estimate the location of the 
 ## Estimating drag and momentum
 In order to do the Kalman filter, we need to estimate the dynamics of our system/state. Our state is defined as the distance from the wall and the velocity of our robot. Thus, we can estimate both using drag and momentum equations. Our state is thus defined as:
 
-$\begin{bmatrix} \dot{x} \\ \ddot{x} \end{bmatrix}$
+$$\begin{bmatrix} \dot{x} \\\ \ddot{x} \end{bmatrix} = \begin{bmatrix} 0  & 1 \\\ 0 -d/m \end{bmatrix} * \begin{bmatrix} x \\\ \dot{x} \end{bmatrix} + \begin{bmatrix} 0 \\\ 1/m \end{bmatrix} * u $$
