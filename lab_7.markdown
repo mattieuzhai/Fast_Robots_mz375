@@ -64,4 +64,96 @@ I also wanted to prove that I had everything working and it wasn't just me readi
 
 As we can see, the model is still okay, but not the greatest. This could be due to noise or just inconsistencies with the battery. 
 
-Finally, I switched it so that we only based our prediction off our measurement (turned process noise high and measurement noise low). This would give us a perfect reading, as our sensors measure our state. However, this isn't really helpful to us because we want to use the Kalman filter in order to predict in-between these sensor readings. Thus, when running the Kalman filter on board, we would mostly be relying on the prediction steps and then updating that with our sensor values when we get one. 
+Finally, I switched it so that we only based our prediction off our measurement (turned process noise high and measurement noise low). This looks like it would give us a perfect reading, as we may assume our sensors measure our state. However, this isn't really helpful to us because we want to use the Kalman filter in order to predict in-between these sensor readings, and our sensors can also be inherently noisy. Thus, if I was running the Kalman filter on board, I would mostly be relying on the prediction steps and then updating that with our sensor values when we get one. 
+[!sjfjd](/Lab7/KF3.png)
+
+## Linear Extrapolator
+The Kalman filter worked. However, implementing the linear algebra libraries do not seem fun on the ArduinoIDE and so I used a linear extrapolator in order to predict in between sensor measurements. As long as we're still getting measurements kind of quick, we can assume a constant linear velocity in between the sensor measurements and it should still work well. A linear extrapolator is also more robust to battery levels and changing floor conditions, as our PID controller assumes that inputting a certain PWM value into our motors will output a certain speed, while our linear extrapolator doesn't have any of that. However, if our sensor measurements are too slow, then our linear extrapolator will most certainly fail while our Kalman filter can still use its model, which we can see is pretty good, to predict our distance from the wall. Here is the PI control code with the linear extrapolator added:
+```C++
+if(PID_val){
+              current_time = millis();
+              float dt = (current_time - prev_time)/1000;
+              prev_time = current_time; //This value is always updated every loop for interpolation
+              //Obtain error
+              
+              if(distance < 2000 && change){
+                distanceSensor1.setDistanceModeShort();
+                change = false;
+              }
+              if(distanceSensor1.checkForDataReady()){
+                distance = distanceSensor1.getDistance();
+                float dt_velocity = (current_time - previous_time_dist)/1000;
+                velocity = (distance - previous_dist) / dt_velocity;
+                previous_time_dist = millis(); //This value is only updated when we get a real sensor measurement
+                previous_dist = distance;
+                // if(abs(error) < 100){
+                //   velocity = 0;
+                // }
+                distanceSensor1.stopRanging();
+                distanceSensor1.startRanging();                                
+              }
+              else{
+                distance = distance + velocity * dt;
+              }
+              float error = distance - setpoint;
+              float integrated_error = error * dt;
+              if(a_error < 20000 || integrated_error < 0){
+                a_error = a_error + integrated_error;
+              }
+              
+              control = kp * error + ki * a_error;
+              int speed = abs(control);
+              if(control < 0){
+                forward = false;
+              }
+              else{
+                forward = true;
+              }
+              if(speed < 53){
+                speed = 53;
+              }
+              if(speed > 255){
+                speed = 255;
+              }
+
+              if(abs(error) < 25){
+                a_error = 0;
+                control = 0;
+                velocity = 0;
+                stop_robot();
+              }
+              else if(forward){
+                go_foward(speed);
+              }
+              else{
+                go_backwards(speed);
+              }
+              
+              //Storing data
+              if(PID_count < size){
+                t[PID_count] = current_time;
+                d1s[PID_count] = error;
+                d2s[PID_count] = control;
+                PID_count++;
+              }
+            }
+```
+It turned out that our linear extrapolator was almost as our Kalman filter at estimating in between sensor measurements. Here are some plots of my PI controller running with a Kp value of 0.04 and Ki of 0.008. I chose these values because a Kp of 0.05 was too fast when I start further away, so I decided to give some of that power to the Ki value instead of the Kp value.
+
+Here are the plots for that run: 
+![sldsfl](/Lab7/LE_error.png)
+
+![sdfskdsdkf](/Lab7/LE_control.png)
+
+And the video:
+<iframe width="800" height="420" src="https://youtube.com/embed/Yf9_H9NI9Fc?feature=share" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> 
+
+I did a run with my old parameters to see the difference and as we can see, it still crashes into the wall. Adding a derivative term would help it not do that. 
+
+Plots:
+![sk](/Lab7/LE_error1.png)
+
+![d](/Lab7/LE_control1.png)
+
+And the video:
+<iframe width="800" height="420" src="https://youtube.com/embed/3wycvBYupYE?feature=share" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> 
