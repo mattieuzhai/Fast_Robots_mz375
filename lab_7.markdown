@@ -28,4 +28,18 @@ Looking at the time when the robot starts to move, it looks like this:
 
 As we can see, the steady state velocity evens out around 1000 mm/s. This means that is our steady-state velocity, and we can calculate our drag term to be u/velocity, or 1/1000 mm/s. This means that when we input a u (control) into our Kalman filter, we will need to divide it by 85 because that's the step response I used to calculate it. 
 
-I also looked at the graph to calculate the 90% rise time, which calculated by doing the equation: $$ 0.9t = (41009.5 - 39630.5) * 0.9 / 1000 $$
+I also looked at the graph to calculate the 90% rise time, which calculated by doing the equation: $$ 0.9t = (41009.5 - 39630.5) * 0.9 / 1000 $$ and got 1.2411 seconds. 
+
+I then calculated the m term, which was $$(-d * t_(0.9))/(ln(0.1)) = 5.390 * 10^-4$$
+
+With this, I finally had my A and B matrices. I set the C matrix to be $$\begin{bmatrix} -1 & 0\end{bmatrix}$$ because we are converting our measurement (which is a positive measurement) into a negative distance measurement, which directly correlates to our state. The C matrix essentially describes how our measurement correlates to our state. The 0 represents the fact that we can't measure the velocity of our robot. 
+
+## Other Kalman filter parameters
+The only other Kalman filter parameters that we need are the noise parameters. We have process noise and measurement noise.
+
+$${\Sigma}_u =  \begin{bmatrix} ({\sigma}_1)^2 & 0 \\\ 0 & ({\sigma}_2)^2 \end{bmatrix} $$
+
+$${\Sigma}_z = ({\sigma}_3)^2 $$
+
+Our process noise describes the noise in our estimate of our state. 
+
