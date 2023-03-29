@@ -21,3 +21,5 @@ performing magic tricks. Enjoy!
 # [Lab 5](https://mattieuzhai.github.io/Fast_Robots_mz375/lab5/)
 
 # [Lab 6](https://mattieuzhai.github.io/Fast_Robots_mz375/lab6/)
+
+# [Lab 7](https://mattieuzhai.github.io/Fast_Robots_mz375/lab7/)
