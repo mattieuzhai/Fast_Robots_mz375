@@ -30,7 +30,7 @@ As we can see, the steady state velocity evens out around 1000 mm/s. This means 
 
 I also looked at the graph to calculate the 90% rise time, which calculated by doing the equation: $$ 0.9t = (41009.5 - 39630.5) * 0.9 / 1000 $$ and got 1.2411 seconds. 
 
-I then calculated the m term, which was $$(-d * t_(0.9))/(ln(0.1)) = 5.390 * 10^-4$$
+I then calculated the m term, which was $$(-d * t_{0.9})/(ln(0.1)) = 5.390 * 10^{-4}$$
 
 With this, I finally had my A and B matrices. I set the C matrix to be $$\begin{bmatrix} -1 & 0\end{bmatrix}$$ because we are converting our measurement (which is a positive measurement) into a negative distance measurement, which directly correlates to our state. The C matrix essentially describes how our measurement correlates to our state. The 0 represents the fact that we can't measure the velocity of our robot. 
 
@@ -41,5 +41,27 @@ $${\Sigma}_u =  \begin{bmatrix} ({\sigma}_1)^2 & 0 \\\ 0 & ({\sigma}_2)^2 \end{b
 
 $${\Sigma}_z = ({\sigma}_3)^2 $$
 
-Our process noise describes the noise in our estimate of our state. 
+Our process noise describes the noise in our estimate of our state. As this can't really be measured due to a myriad of factors, I estimated both parameters to be 10. With the sensor noise, we can measure the noise. I took a bunch of still-sensor measurements, calculated the standard deviation, and found it to be ~ 30 mm. 
 
+## Offboard Kalman Filter
+After I got all the parameters for the Kalman Filter, I tested it on some data that I saved from running the PI controller. Note that I had to discretize the A and B matrices because both were time dependent. This was mainly just multiplying them by the time elapsed.
+
+Code to do this:
+<style type="text/css">
+  .gist {width:1000px !important;}
+  .gist-file
+  .gist-data {max-height: 500px;max-width: 1000px;}
+</style>
+<script src="https://gist.github.com/mattieuzhai/770ddc85454973721771e0cb9bc5958b.js"></script>
+
+Below is a prediction with the aforementioned sigmas:
+[!sddfdf](/Lab7/KF1.png)
+
+They might look different and the Kalman filter may look less accurate, but there is actually no telling which one is more accurate. We used to be measuring our distance from the wall with the ToF sensor and it is noisy and can be a little less accurate. Thus, it's possible that our Kalman filter is actually more accurate at predicting how far our robot is from the wall and we should trust that more than just our sensor readings. 
+
+I also wanted to prove that I had everything working and it wasn't just me reading my sensor measurements (which would work in this case, as the sensor measurements also happen to measure our state). Thus, I adjusted my parameters so my measurement noise was 3000, which would make it so that our Kalman filter only trusted our model. 
+[!lkj](/Lab7/KF2.png)
+
+As we can see, the model is still okay, but not the greatest. This could be due to noise or just inconsistencies with the battery. 
+
+Finally, I switched it so that we only based our prediction off our measurement (turned process noise high and measurement noise low). This would give us a perfect reading, as our sensors measure our state. However, this isn't really helpful to us because we want to use the Kalman filter in order to predict in-between these sensor readings. Thus, when running the Kalman filter on board, we would mostly be relying on the prediction steps and then updating that with our sensor values when we get one. 
