@@ -60,12 +60,12 @@ Below is a prediction with the aforementioned sigmas:
 They might look different and the Kalman filter may look less accurate, but there is actually no telling which one is more accurate. We used to be measuring our distance from the wall with the ToF sensor and it is noisy and can be a little less accurate. Thus, it's possible that our Kalman filter is actually more accurate at predicting how far our robot is from the wall and we should trust that more than just our sensor readings. 
 
 I also wanted to prove that I had everything working and it wasn't just me reading my sensor measurements (which would work in this case, as the sensor measurements also happen to measure our state). Thus, I adjusted my parameters so my measurement noise was 3000, which would make it so that our Kalman filter only trusted our model. 
-[!lkj](/Lab7/KF2.png)
+![lkj](/Lab7/KF2.png)
 
 As we can see, the model is still okay, but not the greatest. This could be due to noise or just inconsistencies with the battery. 
 
 Finally, I switched it so that we only based our prediction off our measurement (turned process noise high and measurement noise low). This looks like it would give us a perfect reading, as we may assume our sensors measure our state. However, this isn't really helpful to us because we want to use the Kalman filter in order to predict in-between these sensor readings, and our sensors can also be inherently noisy. Thus, if I was running the Kalman filter on board, I would mostly be relying on the prediction steps and then updating that with our sensor values when we get one. 
-[!sjfjd](/Lab7/KF3.png)
+![sjfjd](/Lab7/KF3.png)
 
 ## Linear Extrapolator
 The Kalman filter worked. However, implementing the linear algebra libraries do not seem fun on the ArduinoIDE and so I used a linear extrapolator in order to predict in between sensor measurements. As long as we're still getting measurements kind of quick, we can assume a constant linear velocity in between the sensor measurements and it should still work well. A linear extrapolator is also more robust to battery levels and changing floor conditions, as our PID controller assumes that inputting a certain PWM value into our motors will output a certain speed, while our linear extrapolator doesn't have any of that. However, if our sensor measurements are too slow, then our linear extrapolator will most certainly fail while our Kalman filter can still use its model, which we can see is pretty good, to predict our distance from the wall. Here is the PI control code with the linear extrapolator added:
