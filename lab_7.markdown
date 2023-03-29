@@ -55,7 +55,7 @@ Code to do this:
 <script src="https://gist.github.com/mattieuzhai/770ddc85454973721771e0cb9bc5958b.js"></script>
 
 Below is a prediction with the aforementioned sigmas:
-[!sddfdf](/Lab7/KF1.png)
+![sddfdf](/Lab7/KF1.png)
 
 They might look different and the Kalman filter may look less accurate, but there is actually no telling which one is more accurate. We used to be measuring our distance from the wall with the ToF sensor and it is noisy and can be a little less accurate. Thus, it's possible that our Kalman filter is actually more accurate at predicting how far our robot is from the wall and we should trust that more than just our sensor readings. 
 
