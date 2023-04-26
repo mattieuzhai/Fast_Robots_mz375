@@ -35,6 +35,7 @@ $$\begin{bmatrix} cos(\theta) & -sin(\theta) & x_g \\\ sin(\theta) & cos(\theta)
 However, I could simply convert my distances into global coordinates like so:
 
 $$ x = distance * cos(\theta) + x_g $$
+
 $$ y = distance * sin(\theta) + y_g $$
 
 I also had to convert everything into meters (as the points were given to us in feet, which I originally didn't know and was what was most likely making my transformation matrix not work). I did all of this in a Python notebook. 
