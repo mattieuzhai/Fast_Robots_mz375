@@ -14,6 +14,7 @@ performing magic tricks. Enjoy!
 [Lab 1](https://mattieuzhai.github.io/Fast_Robots_mz375/lab1/)
 # Lab 2
 [Lab 2](https://mattieuzhai.github.io/Fast_Robots_mz375/lab2/)
+
 # [Lab 3](https://mattieuzhai.github.io/Fast_Robots_mz375/lab3/)
 
 # [Lab 4](https://mattieuzhai.github.io/Fast_Robots_mz375/lab4/)
@@ -24,4 +25,8 @@ performing magic tricks. Enjoy!
 
 # [Lab 7](https://mattieuzhai.github.io/Fast_Robots_mz375/lab7/)
 
+# [Lab 8](https://mattieuzhai.github.io/Fast_Robots_mz375/lab8/)
+
 # [Lab 9](https://mattieuzhai.github.io/Fast_Robots_mz375/lab9/)
+
+# [Lab 10](https://mattieuzhai.github.io/Fast_Robots_mz375/lab10/)
