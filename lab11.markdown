@@ -60,6 +60,7 @@ Note that I had to rearrange my yaw array because my measured distance values we
 ## Performing the observation loop
 Here is a video of the robot performing one of the observation loops. 
 
+<iframe width="800" height="420" src="https://youtube.com/embed/pAJdtK5npu4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> 
 
 Note that I wasn't really able to get the robot to turn on-axis. I believe this is because of the very large difference between my motor drivers, where it turns out that the offset factor between my two wheels actually depends on the PWM value I put in. Essentially, it's not a linear offset and so depending on the speed, the wheels won't drive at the same power. In a previous lab, I figured out that when it drives slow, the offset factor is about 0.57. However, this is also affected by battery power. When I incorporate this difference into the code, the only way for the robot to turn on-axis is to have it drive a little bit faster, but that results in the robot overshooting the angle by a little bit. This adds up, and the robot will take measurements at the incorrect angle. I believe that it is more important for the robot to not turn on-axis and have the measuresments at the correct angle than to turn on-axis and have the incorrect depth measurements. However, this will most likely lead to some error as we can see in the following graphs. 
 
@@ -68,3 +69,26 @@ We were told to localize at 4 different points (in feet):
 * (-3, -2)
 
 * (0,3)
+
+* (5,-3)
+
+* (-5, -3)
+
+Here are photos of the plots from the simulator plotter:
+![sd](/Lab11/realrobot_0_3.png)
+
+**(0,3)**
+
+![sdf](/Lab11/realrobot_5_3.png)
+
+**(5,3)**
+
+![sf](/Lab11/realrobot_5__3.png)
+
+**(5,-3)**
+
+![sfdf](/Lab11/realrobot__3__2.png)
+
+**(-3,-2)**
+
+As we can see, most of them are pretty close to the correct one. There are a few reasons why the localization may not be perfect. I believe the main reason is that my robot did not turn on axis, meaning that the distance measurements are not all from the same spot. Thus, if my robot turns and it starts taking measurements from another grid cell, then the 
