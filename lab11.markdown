@@ -58,3 +58,13 @@ async def perform_observation_loop(self, rot_vel=120):
 Note that I had to rearrange my yaw array because my measured distance values were offset from the measured yaw values by 1 position in each array, which is that weird chunk of code in the middle. I also had to convert millimeters to meters (which was the source of much of my troubles) and also had to make sure it was stored within a column array (which was the source of the rest of my troubles)
 
 ## Performing the observation loop
+Here is a video of the robot performing one of the observation loops. 
+
+
+Note that I wasn't really able to get the robot to turn on-axis. I believe this is because of the very large difference between my motor drivers, where it turns out that the offset factor between my two wheels actually depends on the PWM value I put in. Essentially, it's not a linear offset and so depending on the speed, the wheels won't drive at the same power. In a previous lab, I figured out that when it drives slow, the offset factor is about 0.57. However, this is also affected by battery power. When I incorporate this difference into the code, the only way for the robot to turn on-axis is to have it drive a little bit faster, but that results in the robot overshooting the angle by a little bit. This adds up, and the robot will take measurements at the incorrect angle. I believe that it is more important for the robot to not turn on-axis and have the measuresments at the correct angle than to turn on-axis and have the incorrect depth measurements. However, this will most likely lead to some error as we can see in the following graphs. 
+
+We were told to localize at 4 different points (in feet):
+
+* (-3, -2)
+
+* (0,3)
