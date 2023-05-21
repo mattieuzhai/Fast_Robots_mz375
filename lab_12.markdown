@@ -223,7 +223,7 @@ Another issue I had was with actually actuating my robot. In theory, if my robot
 
  This was also an issue with the very first point I had to visit after the starting waypoint. For this one, instead of moving backwards, I hard-coded it to use Manhattan distance. This was mostly to demonstrate two forms of moving from point to point, but it also made moving to the first point much more consistent. Computing controls for this was pretty simple, since the angles to turn were now 90 degrees and the distances to move were $$\Delta x$$ and $$\Delta y$$.
 
- ## Updated strategy without localization
+ ## Updated Strategy
 
  After deciding not to use localization, I decided to make it so that my robot would use one set of control actions (angle to turn and distance to travel) to move from one point to the next, minus the first point since I used Manhattan distances for that one. The strategy is as follows
 
