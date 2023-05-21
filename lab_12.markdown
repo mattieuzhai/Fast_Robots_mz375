@@ -5,9 +5,11 @@ permalink: /lab12/
 usemathjax: true
 ---
 # Lab 12: Navigation and Path Planning
+
 In this lab, we were given the task of visiting a list of waypoints within the space. We were allowed to do the task in any method we wanted. Because I was fortunate enough to have already had built a PID controller for orientation and distance from the wall, I decided to use this approach in order to completely this task. 
 
 ## Waypoints
+
 The list of given waypoints (in feet) were:
 
 * (-4, -3)
@@ -33,9 +35,11 @@ I have attached the given plot that shows the placement of these waypoints withi
 ![sdf](/Lab12/given_trajectory.png)
 
 ## Actuating my robot
+
 My strategy was pretty straight-forward. In terms of controlling the robot, I would use PID control to control the angle my robot turns and would use a P controller to control the distance from the wall in front of it. That way, I could the P controller to control how far my robot moved in a pretty accurate manner. Thus, in theory, my robot should be able to turn to any angle and drive forward any distance in a pretty accurate manner. 
 
 ### Orientation PID controller
+
 I had already built a pretty robust orientation PID controller for both Lab 8 and Lab 9. I simply had to tune my orientation PID controller values a little bit to have the turns be a little bit smoother (though this was mostly for personal preference and the values I used for Lab 8 worked perfectly fine). In the end, my Kp = 3, Ki = 2, and Kd = 1. The basis of my orientation PID controller is pretty simple: drive the robot forward at some base speed by turning left/right wheels separately. Then, subtract some offset from the speed at which I drive my right/left wheels that will redirect the robot towards the setpoint. If we use a base speed of 0, the robot will (theoretically, as we found out in Lab 11), turn on-axis by driving right and left wheels at opposite PWM values. However, if our base speed is some value, like x for example, the robot will drive forward in a straight line when yaw is close enough to the setpoint, but will turn towards the setpoint when the robot yaw goes too far away. Thus, I was able to make my robot drive straight at any speed I wanted without having to worry about the difference between the motor drivers for right/left wheels. The final code I used for PID orientation control is below: 
 ```C++
 void PID_orientation(float dt, float speed){
@@ -141,6 +145,7 @@ void left_wheels(int speed){
 }
 ```
 ### Distance P controller and moving forward a set distance
+
 I also used a P controller to control my distance from the wall directly in front of my robot. This would allow my robot to travel forward at any distance I wanted by setting the setpoint to be current_distance - distance_to_travel. This, fortunately, worked with negative distances as well, allowing my robot to back up whenever I wanted it to as well. 
 
 I only used a P controller because I felt it was more important to be accurate than fast for travelling straight distances for my robot. Thus, I made the speed at which the robot moved 55 at all times in terms of PWM values so it wouldn't overshoot the setpoint too much, but also wouldn't hit deadband. I suppose this means that technically, it is not even a P controller, but it worked for my purposes. This meant that an integrator/derivative term was unnecessary as my robot was not moving forward at a speed which would cause it to overshoot and there wouldn't be any deadband for the integrator term to fight. I also used the PID orientation control in order to ensure my robot moved forward in a straight line. My Kp value was 0.3. 
@@ -199,6 +204,7 @@ if(dance_val){
             }
 ```
 ## Original Strategy
+
 For actually traversing, my original strategy was going to be:
 
 * Localize where the robot is and update pose (unless we are at the start. Then, we know where our robot starts)
@@ -213,11 +219,12 @@ For actually traversing, my original strategy was going to be:
 
 However, a few issues popped up that made me scrap localization early on. First, my robot still had issues turning on-axis consistently. This, coupled with the fact that my front Time-of-Flight (ToF) sensor was not the greatest sensor and gave pretty noisy measurements, meant that my robot was only able to localize correctly about 50% of the time (and about 20% of the time in certain spots of the map). We can see this with Lab 11. If I wanted my robot to succeed, it would need to localize correctly a lot more times than that, probably at least 90%. If my robot localized incorrectly, then my robot would receive incorrect movement commands and that could lead into my robot crashing into obstacles, which would almost lead to certain failure. I did not want my runs to be dependent on my robot localizing correctly a majority of the time when my robot would consistently localize incorrectly half the time. 
 
-Another issue I had was with actually actuating my robot. In theory, if my robot could see the wall directly in front of it (so at $$\theta$$ = 0 in robot reference frame), then it could move any distance it wanted in that direction. However, in the map, there were occasionally spots where my robot could not see the wall in front of it because it was too far away. I have no idea why, considering I kept my ToF sensor in long mode at all times. It still was consistently an issue, messing up many times and many runs, including a near perfect run as we'll see later. Thus, I found the best course of action in these cases was to actually turn and face the opposite way (so 180 - $$(\theta)_turn$$) and move the negative distance based of the wall behind the robot, which was usually a lot closer. However, based off of robot pose alone, there is no way to actually know when I should drive backwards and when I should drive forwards without some complicated function. I thought of using a function that can compute the distance from a point to the wall that was in front of/behind of it, but that would have been a lot of extra math. Thus, if I did not localize and simply used my PID/P controllers, which I tuned to be very accurate, I could simply hard-code whether to drive backwards or forwards. However, this means that in localization, where I don't necessarily know where my robot is before executing the control loop, it is not possible to know whether I should drive my robot forwards/backwards. 
+Another issue I had was with actually actuating my robot. In theory, if my robot could see the wall directly in front of it (so at $$\theta$$ = 0 in robot reference frame), then it could move any distance it wanted in that direction. However, in the map, there were occasionally spots where my robot could not see the wall in front of it because it was too far away. I have no idea why, considering I kept my ToF sensor in long mode at all times. It still was consistently an issue, messing up many times and many runs, including a near perfect run as we'll see later. Thus, I found the best course of action in these cases was to actually turn and face the opposite way (so 180 - $$(\theta)_(turn)$$) and move the negative distance based of the wall behind the robot, which was usually a lot closer. However, based off of robot pose alone, there is no way to actually know when I should drive backwards and when I should drive forwards without some complicated function. I thought of using a function that can compute the distance from a point to the wall that was in front of/behind of it, but that would have been a lot of extra math. Thus, if I did not localize and simply used my PID/P controllers, which I tuned to be very accurate, I could simply hard-code whether to drive backwards or forwards. However, this means that in localization, where I don't necessarily know where my robot is before executing the control loop, it is not possible to know whether I should drive my robot forwards/backwards. 
 
- This was also an issue with the very first point I had to visit after the starting waypoint. For this one, instead of moving backwards, I hard-coded it to use Manhattan distance. This was mostly to demonstrate two forms of moving from point to point, but it also made moving to the first point much more consistent. Computing controls for this was pretty simple, since the angles to turn were now 90 degrees and the distances to move were $$(\Delta)x$$ and $$(\Delta)y$$.
+ This was also an issue with the very first point I had to visit after the starting waypoint. For this one, instead of moving backwards, I hard-coded it to use Manhattan distance. This was mostly to demonstrate two forms of moving from point to point, but it also made moving to the first point much more consistent. Computing controls for this was pretty simple, since the angles to turn were now 90 degrees and the distances to move were $$\Delta x$$ and $$\Delta y$$.
 
  ## Updated strategy without localization
+
  After deciding not to use localization, I decided to make it so that my robot would use one set of control actions (angle to turn and distance to travel) to move from one point to the next, minus the first point since I used Manhattan distances for that one. The strategy is as follows
 
  * If just starting off, use Manhattan distances to travel from the starting location to the first point
@@ -235,6 +242,9 @@ Another issue I had was with actually actuating my robot. In theory, if my robot
  * If no more points, we are done!
 
  This strategy is not exactly open-ended (i.e, it cannot take any list of waypoints), as I needed to hard-code certain movements to be forwards or backwards based on qualitative observations of if my robot could see the wall in front of it, and I added Manhattan distance. However, if my robot had a better ToF sensor on the front that could see the walls in front of it, then it could easily be an open-ended solution, and the issues that make it not open-ended are not the algorithm itself, but issues with my hardware. 
+
+Diagram:
+![sdfdsdfsd](/Lab12/plan.png)
 
 Below is the Python cell that did this:
 ```python
@@ -306,6 +316,7 @@ for i in range(dimensions[0] - 1):
 ```
 
 ## An almost successful run (and how I generally debugged)
+
 Below is an almost successful run, where I miss the very final waypoint (this is after many, many attempts). 
 
 <iframe width="955" height="537" src="https://www.youtube.com/embed/FB-tRKxTg-w" title="Lab 12 Failed Run" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
@@ -313,7 +324,8 @@ Below is an almost successful run, where I miss the very final waypoint (this is
 As we can see, my turn and move scheme works really well. My PID controller is able to turn the angles pretty accurately and my P controller can move distances pretty accurately. I found that adding some offsets to the control actions helped. This was most likely due to how I determined when I was close enough to the setpoint for my PID controllers. However, I included this video to show the issue with my robot not being able to see the wall in front of it to determine its initial distance. 
 
 ## A successful run!
-Here is a successful run, where I was able to hit every waypoint. I stop at most of them on the dot, which is really nice. My failed attempt actually was better for most of the initial waypoints but failed the last waypoint so oh well :(.
+
+Here is a successful run, where I was able to hit every waypoint. Unfortunately, I accidentlly missed the very first action. However, as we can see from my almost successful run, it was able to do it. I stop at most of them on the dot, which is really nice. My failed attempt actually was better for most of the initial waypoints but failed the last waypoint so oh well :(.
 
 <iframe width="955" height="537" src="https://www.youtube.com/embed/p7znSbdOJjE" title="Lab 12 Good Run" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
