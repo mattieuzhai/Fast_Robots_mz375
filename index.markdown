@@ -4,33 +4,33 @@
 
 layout: default
 ---
-:3
+   
 ## Introduction
 Hello! I'm Mattieu Zhai and this is my project website for Fast Robots. 
 Here, you will find pages with the lab writeups. In my free time, I enjoy playing ultimate frisbee and 
 performing magic tricks. Enjoy!
 ![ME](/photo.png)
-# Lab 1 
-[Lab 1](https://mattieuzhai.github.io/Fast_Robots_mz375/lab1/)
-# Lab 2
-[Lab 2](https://mattieuzhai.github.io/Fast_Robots_mz375/lab2/)
 
-# [Lab 3](https://mattieuzhai.github.io/Fast_Robots_mz375/lab3/)
+# [Lab 1: Introduction to the Artemis Board](https://mattieuzhai.github.io/Fast_Robots_mz375/lab1/)
 
-# [Lab 4](https://mattieuzhai.github.io/Fast_Robots_mz375/lab4/)
+# [Lab 2: Bluetooth Communication](https://mattieuzhai.github.io/Fast_Robots_mz375/lab2/)
 
-# [Lab 5](https://mattieuzhai.github.io/Fast_Robots_mz375/lab5/)
+# [Lab 3: Time-of-Flight Sensors](https://mattieuzhai.github.io/Fast_Robots_mz375/lab3/)
 
-# [Lab 6](https://mattieuzhai.github.io/Fast_Robots_mz375/lab6/)
+# [Lab 4: IMU](https://mattieuzhai.github.io/Fast_Robots_mz375/lab4/)
 
-# [Lab 7](https://mattieuzhai.github.io/Fast_Robots_mz375/lab7/)
+# [Lab 5: Motor Drivers](https://mattieuzhai.github.io/Fast_Robots_mz375/lab5/)
 
-# [Lab 8](https://mattieuzhai.github.io/Fast_Robots_mz375/lab8/)
+# [Lab 6: PID Control](https://mattieuzhai.github.io/Fast_Robots_mz375/lab6/)
 
-# [Lab 9](https://mattieuzhai.github.io/Fast_Robots_mz375/lab9/)
+# [Lab 7: Kalman Filter](https://mattieuzhai.github.io/Fast_Robots_mz375/lab7/)
 
-# [Lab 10](https://mattieuzhai.github.io/Fast_Robots_mz375/lab10/)
+# [Lab 8: Stunts :)](https://mattieuzhai.github.io/Fast_Robots_mz375/lab8/)
 
-# [Lab 11](https://mattieuzhai.github.io/Fast_Robots_mz375/lab11/)
+# [Lab 9: Mapping](https://mattieuzhai.github.io/Fast_Robots_mz375/lab9/)
 
-# [Lab 12](https://mattieuzhai.github.io/Fast_Robots_mz375/lab12/)
+# [Lab 10: Localization (simulation)](https://mattieuzhai.github.io/Fast_Robots_mz375/lab10/)
+
+# [Lab 11: Localization (real)](https://mattieuzhai.github.io/Fast_Robots_mz375/lab11/)
+
+# [Lab 12: Motion-planning and Navigation](https://mattieuzhai.github.io/Fast_Robots_mz375/lab12/)
