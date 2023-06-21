@@ -12,6 +12,8 @@ performing magic tricks. Enjoy!
 
 # [Lab 1: Introduction to the Artemis Board](https://mattieuzhai.github.io/Fast_Robots_mz375/lab1/)
 
+The purpose of this lab was to familiarize ourselves witht he
+
 # [Lab 2: Bluetooth Communication](https://mattieuzhai.github.io/Fast_Robots_mz375/lab2/)
 
 # [Lab 3: Time-of-Flight Sensors](https://mattieuzhai.github.io/Fast_Robots_mz375/lab3/)
